@@ -333,6 +333,10 @@ public class Sql {
 			return new Sql.Where(this.sql, where);
 		}
 		
+		public Sql.GroupBy groupBy(String[] fieldName) {
+			return new Sql.GroupBy(this.sql, fieldName);
+		}
+		
 		public Sql.LeftJoin leftJoin(String table) {
 			return new Sql.LeftJoin(this.sql, table);
 		}
