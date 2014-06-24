@@ -7,6 +7,8 @@ package blake;
  */
 public class Sql {
 	
+	private StringBuffer sb = new StringBuffer();
+	
 	/**
 	 * examples
 	 * @param args
@@ -89,6 +91,81 @@ public class Sql {
 			"user.id = player.uid"
 		);
 		System.out.println("Select: " + sql.getString());
+	}
+	
+	public Sql.Insert insert(String table, String[] fieldName, Object[] values) {
+		this.deleteAll();
+		return new Sql.Insert(this, table, fieldName, values);
+	}
+	
+	public Sql.Insert insert(String table, String[] fieldName) {
+		this.deleteAll();
+		return new Sql.Insert(this, table, fieldName, null);
+	}
+	
+	public Sql.Insert insert(String database, String table, String[] fieldName, Object[] values) {
+		this.deleteAll();
+		return new Sql.Insert(this, database, table, fieldName, values);
+	}
+	
+	public Sql.Insert insert(String database, String table, String[] fieldName) {
+		this.deleteAll();
+		return new Sql.Insert(this, database, table, fieldName, null);
+	}
+	
+	public Sql.Update update(String table, String[] fieldName, Object[] values) {
+		this.deleteAll();
+		return new Sql.Update(this, table, fieldName, values);
+	}
+	
+	public Sql.Update update(String table, String[] fieldName) {
+		this.deleteAll();
+		return new Sql.Update(this, table, fieldName, null);
+	}
+	
+	public Sql.Update update(String database, String table, String[] fieldName, Object[] values) {
+		this.deleteAll();
+		return new Sql.Update(this, database, table, fieldName, values);
+	}
+	
+	public Sql.Update update(String database, String table, String[] fieldName) {
+		this.deleteAll();
+		return new Sql.Update(this, database, table, fieldName, null);
+	}
+	
+	public Sql.Delete delete(String table) {
+		this.deleteAll();
+		return new Sql.Delete(this, table);
+	}
+	
+	public Sql.Delete delete(String database, String table) {
+		this.deleteAll();
+		return new Sql.Delete(this, database, table);
+	}
+	
+	public Sql.Select select(String[] fieldName) {
+		this.deleteAll();
+		return new Sql.Select(this, fieldName);
+	}
+	
+	private void deleteAll() {
+		this.sb.delete(0, this.sb.length());
+	}
+	
+	public String getString() {
+		return this.sb.toString();
+	}
+	
+	public String getString(String rename) {
+		StringBuffer sb = new StringBuffer(this.sb.toString());
+		
+		sb.insert(0, '(');
+		sb.append(')');
+		sb.append('`');
+		sb.append(rename);
+		sb.append('`');
+		
+		return sb.toString();
 	}
 	
 	public class Insert {
@@ -593,83 +670,6 @@ public class Sql {
 			return this.sql.getString(rename);
 		}
 		
-	}
-	
-	private StringBuffer sb = new StringBuffer();
-	
-	public Sql.Insert insert(String table, String[] fieldName, Object[] values) {
-		this.deleteAll();
-		return new Sql.Insert(this, table, fieldName, values);
-	}
-	
-	public Sql.Insert insert(String table, String[] fieldName) {
-		this.deleteAll();
-		return new Sql.Insert(this, table, fieldName, null);
-	}
-	
-	public Sql.Insert insert(String database, String table, String[] fieldName, Object[] values) {
-		this.deleteAll();
-		return new Sql.Insert(this, database, table, fieldName, values);
-	}
-	
-	public Sql.Insert insert(String database, String table, String[] fieldName) {
-		this.deleteAll();
-		return new Sql.Insert(this, database, table, fieldName, null);
-	}
-	
-	public Sql.Update update(String table, String[] fieldName, Object[] values) {
-		this.deleteAll();
-		return new Sql.Update(this, table, fieldName, values);
-	}
-	
-	public Sql.Update update(String table, String[] fieldName) {
-		this.deleteAll();
-		return new Sql.Update(this, table, fieldName, null);
-	}
-	
-	public Sql.Update update(String database, String table, String[] fieldName, Object[] values) {
-		this.deleteAll();
-		return new Sql.Update(this, database, table, fieldName, values);
-	}
-	
-	public Sql.Update update(String database, String table, String[] fieldName) {
-		this.deleteAll();
-		return new Sql.Update(this, database, table, fieldName, null);
-	}
-	
-	public Sql.Delete delete(String table) {
-		this.deleteAll();
-		return new Sql.Delete(this, table);
-	}
-	
-	public Sql.Delete delete(String database, String table) {
-		this.deleteAll();
-		return new Sql.Delete(this, database, table);
-	}
-	
-	public Sql.Select select(String[] fieldName) {
-		this.deleteAll();
-		return new Sql.Select(this, fieldName);
-	}
-	
-	private void deleteAll() {
-		this.sb.delete(0, this.sb.length());
-	}
-	
-	public String getString() {
-		return this.sb.toString();
-	}
-	
-	public String getString(String rename) {
-		StringBuffer sb = new StringBuffer(this.sb.toString());
-		
-		sb.insert(0, '(');
-		sb.append(')');
-		sb.append('`');
-		sb.append(rename);
-		sb.append('`');
-		
-		return sb.toString();
 	}
 	
 }
