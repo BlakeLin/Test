@@ -99,7 +99,7 @@ public class Sql {
 			this.sql = sql;
 		}
 		
-		Insert(Sql sql, String table, String[] fieldName, Object[] values) {
+		private Insert(Sql sql, String table, String[] fieldName, Object[] values) {
 			this(sql);
 			sql.sb.append(" INSERT INTO ");
 			sql.sb.append(table);
@@ -156,7 +156,7 @@ public class Sql {
 			}
 		}
 		
-		Insert(Sql sql, String database, String table, String[] fieldName, Object[] values) {
+		private Insert(Sql sql, String database, String table, String[] fieldName, Object[] values) {
 			this(sql, database + '.' + table, fieldName, values);
 		}
 		
@@ -174,7 +174,7 @@ public class Sql {
 			this.sql = sql;
 		}
 		
-		Update(Sql sql, String table, String[] fieldName, Object[] values) {
+		private Update(Sql sql, String table, String[] fieldName, Object[] values) {
 			this(sql);
 			sql.sb.append(" UPDATE ");
 			sql.sb.append(table);
@@ -197,7 +197,7 @@ public class Sql {
 			}
 		}
 		
-		Update(Sql sql, String database, String table, String[] fieldName, Object[] values) {
+		private Update(Sql sql, String database, String table, String[] fieldName, Object[] values) {
 			this(sql, database + '.' + table, fieldName, values);
 		}
 		
@@ -219,7 +219,7 @@ public class Sql {
 			this.sql = sql;
 		}
 		
-		UpdateWhere(Sql sql, String where) {
+		private UpdateWhere(Sql sql, String where) {
 			this(sql);
 			sql.sb.append(" WHERE ");
 			sql.sb.append(where);
@@ -239,13 +239,13 @@ public class Sql {
 			this.sql = sql;
 		}
 		
-		Delete(Sql sql, String table) {
+		private Delete(Sql sql, String table) {
 			this(sql);
 			sql.sb.append(" DELETE FROM ");
 			sql.sb.append(table);
 		}
 		
-		Delete(Sql sql, String database, String table) {
+		private Delete(Sql sql, String database, String table) {
 			this(sql, database + '.' + table);
 		}
 		
@@ -267,7 +267,7 @@ public class Sql {
 			this.sql = sql;
 		}
 		
-		DeleteWhere(Sql sql, String where) {
+		private DeleteWhere(Sql sql, String where) {
 			this(sql);
 			sql.sb.append(" WHERE ");
 			sql.sb.append(where);
@@ -283,11 +283,11 @@ public class Sql {
 		
 		private Sql sql;
 		
-		Select(Sql sql) {
+		private Select(Sql sql) {
 			this.sql = sql;
 		}
 		
-		Select(Sql sql, String[] fieldName) {
+		private Select(Sql sql, String[] fieldName) {
 			this(sql);
 			sql.sb.append(" SELECT ");
 			for(int a = 0; a < fieldName.length; a++) {
@@ -313,11 +313,11 @@ public class Sql {
 		
 		private Sql sql;
 		
-		From(Sql sql) {
+		private From(Sql sql) {
 			this.sql = sql;
 		}
 		
-		From(Sql sql, String[] table) {
+		private From(Sql sql, String[] table) {
 			this(sql);
 			sql.sb.append(" FROM ");
 			for(int a = 0; a < table.length; a++) {
@@ -335,6 +335,22 @@ public class Sql {
 		
 		public Sql.GroupBy groupBy(String[] fieldName) {
 			return new Sql.GroupBy(this.sql, fieldName);
+		}
+		
+		public Sql.OrderBy orderBy(String[] fieldName, int[] sortType) {
+			return new Sql.OrderBy(this.sql, fieldName, sortType);
+		}
+		
+		public Sql.Limit limit(int row_count) {
+			return new Sql.Limit(this.sql, row_count);
+		}
+		
+		public Sql.Limit limit(int offset, int row_count) {
+			return new Sql.Limit(this.sql, offset, row_count);
+		}
+		
+		public Sql.Limit limit(String limit) {
+			return new Sql.Limit(this.sql, limit);
 		}
 		
 		public Sql.LeftJoin leftJoin(String table) {
@@ -355,11 +371,11 @@ public class Sql {
 		
 		private Sql sql;
 		
-		Where(Sql sql) {
+		private Where(Sql sql) {
 			this.sql = sql;
 		}
 		
-		Where(Sql sql, String where) {
+		private Where(Sql sql, String where) {
 			this(sql);
 			sql.sb.append(" WHERE ");
 			sql.sb.append(where);
@@ -367,6 +383,22 @@ public class Sql {
 		
 		public Sql.GroupBy groupBy(String[] fieldName) {
 			return new Sql.GroupBy(this.sql, fieldName);
+		}
+		
+		public Sql.OrderBy orderBy(String[] fieldName, int[] sortType) {
+			return new Sql.OrderBy(this.sql, fieldName, sortType);
+		}
+		
+		public Sql.Limit limit(int row_count) {
+			return new Sql.Limit(this.sql, row_count);
+		}
+		
+		public Sql.Limit limit(int offset, int row_count) {
+			return new Sql.Limit(this.sql, offset, row_count);
+		}
+		
+		public Sql.Limit limit(String limit) {
+			return new Sql.Limit(this.sql, limit);
 		}
 		
 		public String getString() {
@@ -383,11 +415,11 @@ public class Sql {
 		
 		private Sql sql;
 		
-		GroupBy(Sql sql) {
+		private GroupBy(Sql sql) {
 			this.sql = sql;
 		}
 		
-		GroupBy(Sql sql, String[] fieldName) {
+		private GroupBy(Sql sql, String[] fieldName) {
 			this(sql);
 			sql.sb.append(" GROUP BY ");
 			for(int a = 0; a < fieldName.length; a++) {
@@ -401,6 +433,18 @@ public class Sql {
 		
 		public Sql.OrderBy orderBy(String[] fieldName, int[] sortType) {
 			return new Sql.OrderBy(this.sql, fieldName, sortType);
+		}
+		
+		public Sql.Limit limit(int row_count) {
+			return new Sql.Limit(this.sql, row_count);
+		}
+		
+		public Sql.Limit limit(int offset, int row_count) {
+			return new Sql.Limit(this.sql, offset, row_count);
+		}
+		
+		public Sql.Limit limit(String limit) {
+			return new Sql.Limit(this.sql, limit);
 		}
 		
 		public String getString() {
@@ -420,11 +464,11 @@ public class Sql {
 		
 		private Sql sql;
 		
-		OrderBy(Sql sql) {
+		private OrderBy(Sql sql) {
 			this.sql = sql;
 		}
 		
-		OrderBy(Sql sql, String[] fieldName, int[] sortType) {
+		private OrderBy(Sql sql, String[] fieldName, int[] sortType) {
 			this(sql);
 			sql.sb.append(" ORDER BY ");
 			for(int a = 0; a < fieldName.length; a++) {
@@ -454,6 +498,10 @@ public class Sql {
 			return new Sql.Limit(this.sql, offset, row_count);
 		}
 		
+		public Sql.Limit limit(String limit) {
+			return new Sql.Limit(this.sql, limit);
+		}
+		
 		public String getString() {
 			return this.sql.getString();
 		}
@@ -468,17 +516,17 @@ public class Sql {
 		
 		private Sql sql;
 		
-		Limit(Sql sql) {
+		private Limit(Sql sql) {
 			this.sql = sql;
 		}
 		
-		Limit(Sql sql, int row_count) {
+		private Limit(Sql sql, int row_count) {
 			this(sql);
 			sql.sb.append(" LIMIT ");
 			sql.sb.append(row_count);
 		}
 		
-		Limit(Sql sql, int offset, int row_count) {
+		private Limit(Sql sql, int offset, int row_count) {
 			this(sql);
 			sql.sb.append(" LIMIT ");
 			sql.sb.append(offset);
@@ -487,7 +535,7 @@ public class Sql {
 			sql.sb.append(row_count);
 		}
 		
-		Limit(Sql sql, String limit) {
+		private Limit(Sql sql, String limit) {
 			this(sql);
 			sql.sb.append(" LIMIT ");
 			sql.sb.append(limit);
@@ -507,11 +555,11 @@ public class Sql {
 		
 		private Sql sql;
 		
-		LeftJoin(Sql sql) {
+		private LeftJoin(Sql sql) {
 			this.sql = sql;
 		}
 		
-		LeftJoin(Sql sql, String table) {
+		private LeftJoin(Sql sql, String table) {
 			this(sql);
 			sql.sb.append(" LEFT JOIN ");
 			sql.sb.append(table);
@@ -527,11 +575,11 @@ public class Sql {
 		
 		private Sql sql;
 		
-		On(Sql sql) {
+		private On(Sql sql) {
 			this.sql = sql;
 		}
 		
-		On(Sql sql, String on) {
+		private On(Sql sql, String on) {
 			this(sql);
 			this.sql.sb.append(" ON ");
 			this.sql.sb.append(on);
@@ -547,61 +595,65 @@ public class Sql {
 		
 	}
 	
-	private StringBuffer sb;
+	private StringBuffer sb = new StringBuffer();
 	
 	public Sql.Insert insert(String table, String[] fieldName, Object[] values) {
-		this.sb = new StringBuffer();
+		this.deleteAll();
 		return new Sql.Insert(this, table, fieldName, values);
 	}
 	
 	public Sql.Insert insert(String table, String[] fieldName) {
-		this.sb = new StringBuffer();
+		this.deleteAll();
 		return new Sql.Insert(this, table, fieldName, null);
 	}
 	
 	public Sql.Insert insert(String database, String table, String[] fieldName, Object[] values) {
-		this.sb = new StringBuffer();
+		this.deleteAll();
 		return new Sql.Insert(this, database, table, fieldName, values);
 	}
 	
 	public Sql.Insert insert(String database, String table, String[] fieldName) {
-		this.sb = new StringBuffer();
+		this.deleteAll();
 		return new Sql.Insert(this, database, table, fieldName, null);
 	}
 	
 	public Sql.Update update(String table, String[] fieldName, Object[] values) {
-		this.sb = new StringBuffer();
+		this.deleteAll();
 		return new Sql.Update(this, table, fieldName, values);
 	}
 	
 	public Sql.Update update(String table, String[] fieldName) {
-		this.sb = new StringBuffer();
+		this.deleteAll();
 		return new Sql.Update(this, table, fieldName, null);
 	}
 	
 	public Sql.Update update(String database, String table, String[] fieldName, Object[] values) {
-		this.sb = new StringBuffer();
+		this.deleteAll();
 		return new Sql.Update(this, database, table, fieldName, values);
 	}
 	
 	public Sql.Update update(String database, String table, String[] fieldName) {
-		this.sb = new StringBuffer();
+		this.deleteAll();
 		return new Sql.Update(this, database, table, fieldName, null);
 	}
 	
 	public Sql.Delete delete(String table) {
-		this.sb = new StringBuffer();
+		this.deleteAll();
 		return new Sql.Delete(this, table);
 	}
 	
 	public Sql.Delete delete(String database, String table) {
-		this.sb = new StringBuffer();
+		this.deleteAll();
 		return new Sql.Delete(this, database, table);
 	}
 	
 	public Sql.Select select(String[] fieldName) {
-		this.sb = new StringBuffer();
+		this.deleteAll();
 		return new Sql.Select(this, fieldName);
+	}
+	
+	private void deleteAll() {
+		this.sb.delete(0, this.sb.length());
 	}
 	
 	public String getString() {
